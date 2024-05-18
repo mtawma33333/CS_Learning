@@ -17,7 +17,9 @@ public class DebugExercise3 {
         }
         return totalTurnips;
     }
-
+/* bug
+ *kroger turnip 0.45 -387128732
+ */
     public static void main(String[] args) {
         In in = new In("foods.csv");
         System.out.println(countTurnips(in));

@@ -79,10 +79,18 @@ public class IntList {
      * Returns a list consisting of the elements of A followed by the
      * *  elements of B.  May modify items of A. Don't use 'new'.
      */
-
     public static IntList dcatenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        return null;
+        if (A == null) {
+            return B;
+        }
+        IntList ptr = A;
+        // Iterate through list A until the end
+        while (ptr.rest != null) {
+            ptr = ptr.rest;
+        }
+        // Now ptr is at the last element of A, set its rest to B
+        ptr.rest = B;
+        return A;
     }
 
     /**
@@ -90,8 +98,39 @@ public class IntList {
      * * elements of B.  May NOT modify items of A.  Use 'new'.
      */
     public static IntList catenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        return null;
+        /* Dummy head to simplify appending elements
+         * 使用虚拟头节点可以简化列表构造过程，因为您不必将列表的第一个元素视为循环外的特例。
+         * 这减少了对条件检查的需要，并使代码更简洁。
+         */
+        IntList dummyHead = new IntList(0, null);
+        IntList ptr = dummyHead;
+
+        // Helper method to append elements from a source list to the new list
+        ptr = appendList(ptr, A);
+        ptr = appendList(ptr, B);
+
+        return dummyHead.rest;
+    }
+    /**
+     * Appends the elements of the source list to the end of the target list.
+     * The target list is modified as a result of this operation while the source list remains unchanged.
+     * The method returns the updated target list after all elements of the source have been appended.
+     *
+     * @param target The list to which the elements are to be appended. This list will be modified.
+     * @param source The list from which elements are to be taken. This list remains unchanged.
+     * @return The last node in the appended target list to facilitate further appends.
+     */
+    private static IntList appendList(IntList target, IntList source) {
+        while (source != null) {
+            target.rest = new IntList(source.first, null);
+            target = target.rest;
+            source = source.rest;
+        }
+        return target;
+    }
+    private static IntList copy(IntList list) {
+        if (list == null) return null;
+        return new IntList(list.first, copy(list.rest));
     }
 
 
